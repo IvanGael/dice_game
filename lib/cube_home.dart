@@ -83,30 +83,9 @@ class _CubeHomeWidgetState extends State<CubeHomeWidget>
 
   @override
   Widget build(BuildContext context) {
-    // return GestureDetector(
-    //   onTap: _toggleAnimation,
-    //   child: CustomPaint(
-    //     painter: CubeHomePainter(_animationProgress),
-    //     size: Size(300, 300),
-    //   ),
-    // );
     return CustomPaint(
       painter: CubeHomePainter(_animationProgress),
-      size: const Size(300, 300),
-      // child: _controller.status == AnimationStatus.completed ?
-      // Center(
-      //   child: Transform.translate(
-      //     offset: const Offset(0, 80),
-      //     child: const Text(
-      //           'Life Dice',
-      //           style: TextStyle(
-      //             color: Colors.black,
-      //             fontSize: 30,
-      //             fontWeight: FontWeight.bold
-      //           ),
-      //         ),
-      //   ),
-      // ) : null,
+      size: const Size(300, 300)
     );
   }
 }
