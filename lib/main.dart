@@ -3,8 +3,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:device_preview/device_preview.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'cube_home.dart';
+import 'provider/dice_config_bloc.dart';
+import 'provider/dice_config_repository.dart';
 
 void main() {
   // runApp(
@@ -31,14 +34,18 @@ class MyApp extends StatelessWidget {
     //   debugShowCheckedModeBanner: false,
     //   home: const CubeHome(),
     // );
-    
+
     return MaterialApp(
       title: 'Dice Game',
       theme: ThemeData.dark(
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const CubeHome(),
+      // home: const CubeHome(),
+      home: BlocProvider(
+        create: (context) => DiceConfigBloc(diceConfigRepository: DiceConfigRepository()),
+        child: const CubeHome(),
+      ),
     );
   }
 }

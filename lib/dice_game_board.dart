@@ -1,5 +1,6 @@
 // ignore_for_file: sort_child_properties_last, library_private_types_in_public_api
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -12,10 +13,17 @@ import 'package:quickalert/quickalert.dart';
 import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'cube_to_die_widget.dart';
 import 'custom_search_delegate.dart';
 import 'dice_config.dart';
 import 'dice_faces_customization.dart';
+import 'provider/dice_config_bloc.dart';
+import 'provider/dice_config_event.dart';
+import 'provider/dice_config_repository.dart';
+import 'provider/dice_config_state.dart';
+import 'utils.dart';
 
 
 class DiceGameBoard extends StatefulWidget {
@@ -34,11 +42,22 @@ class _DiceGameBoardState extends State<DiceGameBoard> {
   late AudioPlayer _audioPlayer;
   String winningCondition = 'All dice must roll 6';
 
+  late final DiceConfigBloc _diceConfigBloc;
+
 
   @override
   void initState() {
     super.initState();
     _audioPlayer = AudioPlayer();
+
+    _diceConfigBloc = DiceConfigBloc(diceConfigRepository: DiceConfigRepository());
+    _diceConfigBloc.add(LoadDiceConfigs());
+  }
+
+  @override
+  void dispose() {
+    _diceConfigBloc.close();
+    super.dispose();
   }
 
   void _playAudio() async {
@@ -48,29 +67,42 @@ class _DiceGameBoardState extends State<DiceGameBoard> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-      children: [
-        Expanded(
-          child: GestureDetector(
-            child: Container(
-              color: Colors.lightBlue[50],
-              child: dices.isEmpty
-                  ? _buildEmptyState()
-                  : Stack(
-                      children: dices.map((dice) => _buildDraggableDice(dice)).toList(),
+    return BlocProvider(
+      create: (_) => _diceConfigBloc,
+      child: BlocBuilder<DiceConfigBloc, DiceConfigState>(
+        builder: (context, state) {
+          if (state is DiceConfigLoaded) {
+            return Scaffold(
+              body: Column(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    child: Container(
+                      color: Colors.lightBlue[50],
+                      child: dices.isEmpty
+                          ? _buildEmptyState()
+                          : Stack(
+                              children: dices.map((dice) => _buildDraggableDice(dice)).toList(),
+                            ),
                     ),
-            ),
-          ),
-        ),
-        _buildControlPanel(),
-      ],
-            ),
+                  ),
+                ),
+                _buildControlPanel(),
+              ],
+                    ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.indigoAccent,
         onPressed: _playGame,
         child: const Icon(Icons.casino),
+      ),
+    );
+          } else if (state is DiceConfigError) {
+            return const Center(child: Text('Error loading dice configurations'));
+          } else {
+            return const Center(child: CupertinoActivityIndicator());
+          }
+        },
       ),
     );
   }
@@ -181,11 +213,16 @@ class _DiceGameBoardState extends State<DiceGameBoard> {
     );
 
     if (customFaces != null) {
+      // Update the dice and its custom faces
+      final updatedDice = dice.copyWith(customFaces: customFaces);
+      _diceConfigBloc.add(SaveDiceConfig(diceConfig: updatedDice));
       setState(() {
-        dice.customFaces = customFaces;
+        // Ensure dice on game board reflects customization
+        dices[dices.indexWhere((d) => d.id == dice.id)] = updatedDice;
       });
     }
   }
+
 
   Widget _buildControlPanel() {
     return Container(
@@ -316,6 +353,7 @@ class _DiceGameBoardState extends State<DiceGameBoard> {
   void _addDice(Offset? position) {
     setState(() {
       dices.add(DiceConfig(
+        id: Utils.generateUid(),
         position: position ?? _getRandomPosition(),
         size: currentSize,
         cubeColor: currentCubeColor,
@@ -341,6 +379,7 @@ class _DiceGameBoardState extends State<DiceGameBoard> {
 
   void _duplicateDice(DiceConfig originalDice){
     final clonedDice = DiceConfig(
+      id: Utils.generateUid(),
       position: _getOffsetPositionForClone(originalDice.position),
       size: originalDice.size,
       cubeColor: originalDice.cubeColor,

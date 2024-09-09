@@ -29,7 +29,8 @@ class _DiceFaceCustomizationScreenState extends State<DiceFaceCustomizationScree
   @override
   void initState() {
     super.initState();
-    customFaces = List.generate(6, (index) => (index + 1).toString());
+    // Initialize with the current custom faces instead of new numbers
+    customFaces = List.from(widget.diceConfig.customFaces);
   }
 
   @override
@@ -51,7 +52,7 @@ class _DiceFaceCustomizationScreenState extends State<DiceFaceCustomizationScree
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pop(context, customFaces);
+              _showCustomizationConfirmation();
             },
             icon: const Icon(Icons.save_outlined)
           ),
@@ -132,14 +133,8 @@ class _DiceFaceCustomizationScreenState extends State<DiceFaceCustomizationScree
                         decoration: const InputDecoration(
                           hintText: "Enter emoji, symbol, or text",
                           border: OutlineInputBorder()
-                        ),
-                        // onChanged: (value) {
-                        //   setState(() {
-                        //     customFaces[faceIndex] = value;
-                        //     widget.diceConfig.setIsCustomizing(true);
-                        //   });
-                        // },
-                                        ),
+                        )
+                      ),
                     )
                   ),
                   IconButton(
@@ -157,27 +152,6 @@ class _DiceFaceCustomizationScreenState extends State<DiceFaceCustomizationScree
                               ),
                 ],
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   children: [
-              //     TextButton(
-              //     child: const Text('Cancel'),
-              //     onPressed: () {
-              //       Navigator.of(context).pop();
-              //     },
-              //                 ),
-              //                 TextButton(
-              //     child: const Text('OK'),
-              //     onPressed: () {
-              //       setState(() {
-              //             customFaces[faceIndex] = _controller.text;
-              //             widget.diceConfig.setIsCustomizing(true);
-              //             _controller.clear();
-              //           });
-              //     },
-              //                 ),
-              //   ],
-              // ),
               Offstage(
                 offstage: !_emojiShowing,
                 child: EmojiPicker(
@@ -208,4 +182,28 @@ class _DiceFaceCustomizationScreenState extends State<DiceFaceCustomizationScree
             ],
           );
   }
+
+  void _showCustomizationConfirmation() {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text("Confirm Customization"),
+      content: const Text("Are you sure you want to save these custom faces?"),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text("Cancel"),
+        ),
+         TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+            Navigator.pop(context, customFaces);
+          },
+          child: const Text("Confirm"),
+        ),
+      ],
+    ),
+  );
+}
+
 }
