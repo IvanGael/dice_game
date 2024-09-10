@@ -75,27 +75,30 @@ class _DiceGameBoardState extends State<DiceGameBoard> {
           if (state is DiceConfigLoaded) {
             return Scaffold(
               body: Column(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    child: Container(
-                      color: AppConstants.primarycolor,
-                      child: dices.isEmpty
-                          ? _buildEmptyState()
-                          : Stack(
-                              children: dices.map((dice) => _buildDraggableDice(dice)).toList(),
-                            ),
-                    ),
+                            children: [
+              Expanded(
+                child: GestureDetector(
+                  child: Container(
+                    color: AppConstants.primarycolor,
+                    child: dices.isEmpty
+                        ? _buildEmptyState()
+                        : Stack(
+                            children: dices.map((dice) => _buildDraggableDice(dice)).toList(),
+                          ),
                   ),
                 ),
-                _buildControlPanel(),
-              ],
-                    ),
+              ),
+              _buildControlPanel(),
+                            ],
+                  ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppConstants.secondarycolor,
-        onPressed: _playGame,
-        child: const Icon(Icons.casino),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: FloatingActionButton(
+          backgroundColor: AppConstants.secondarycolor,
+          onPressed: _playGame,
+          child: const Icon(Icons.casino),
+        ),
       ),
     );
           } else if (state is DiceConfigError) {
