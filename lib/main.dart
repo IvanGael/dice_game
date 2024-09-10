@@ -32,7 +32,10 @@ class MyApp extends StatelessWidget {
     //     useMaterial3: true,
     //   ),
     //   debugShowCheckedModeBanner: false,
-    //   home: const CubeHome(),
+    //   home: BlocProvider(
+    //     create: (context) => DiceConfigBloc(diceConfigRepository: DiceConfigRepository()),
+    //     child: const CubeHome(),
+    //   )
     // );
 
     return MaterialApp(

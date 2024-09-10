@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'constants.dart';
 import 'cube_to_die_widget.dart';
 import 'dice_config.dart';
 
@@ -54,7 +55,7 @@ class _DiceFaceCustomizationScreenState extends State<DiceFaceCustomizationScree
             onPressed: () {
               _showCustomizationConfirmation();
             },
-            icon: const Icon(Icons.save_outlined)
+            icon: const Icon(Icons.beenhere)
           ),
         ],
       ),
@@ -79,7 +80,7 @@ class _DiceFaceCustomizationScreenState extends State<DiceFaceCustomizationScree
                     shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                       side: BorderSide(
-                        color: _elementIndex == index ?  Colors.white : Colors.transparent,
+                        color: _elementIndex == index ?  AppConstants.white : AppConstants.transparent,
                         width: _elementIndex == index ? 2 : 1
                       )
                     ),
@@ -119,9 +120,9 @@ class _DiceFaceCustomizationScreenState extends State<DiceFaceCustomizationScree
                               _emojiShowing = !_emojiShowing;
                             });
                           },
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.emoji_emotions,
-                            color: Colors.white,
+                            color: AppConstants.white,
                           ),
                         ),
                   Expanded(
@@ -139,7 +140,7 @@ class _DiceFaceCustomizationScreenState extends State<DiceFaceCustomizationScree
                   ),
                   IconButton(
                     style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(Colors.white)
+                      backgroundColor: WidgetStateProperty.all(AppConstants.white)
                     ),
                   onPressed: () {
                     setState(() {
@@ -148,7 +149,7 @@ class _DiceFaceCustomizationScreenState extends State<DiceFaceCustomizationScree
                           _controller.clear();
                         });
                   },
-                  icon: const Icon(Icons.check, color: Colors.black,),
+                  icon: Icon(Icons.check, color: AppConstants.black,),
                               ),
                 ],
               ),
@@ -165,17 +166,27 @@ class _DiceFaceCustomizationScreenState extends State<DiceFaceCustomizationScree
                     ),
                     swapCategoryAndBottomBar: false,
                     skinToneConfig: const SkinToneConfig(),
-                    categoryViewConfig: const CategoryViewConfig(
-                      backgroundColor: Colors.indigoAccent,
-                      iconColor: Colors.white,
-                      iconColorSelected: Colors.orangeAccent,
-                      indicatorColor: Colors.orangeAccent
+                    categoryViewConfig: CategoryViewConfig(
+                      backgroundColor: AppConstants.primarycolor,
+                      iconColor: AppConstants.black,
+                      iconColorSelected: AppConstants.secondarycolor,
+                      indicatorColor: AppConstants.secondarycolor
                     ),
-                    bottomActionBarConfig: const BottomActionBarConfig(
-                      backgroundColor: Colors.indigoAccent,
-                      buttonColor: Colors.indigoAccent
+                    bottomActionBarConfig: BottomActionBarConfig(
+                      backgroundColor: AppConstants.primarycolor,
+                      buttonColor: AppConstants.primarycolor,
+                      buttonIconColor: AppConstants.black
                     ),
-                    searchViewConfig: const SearchViewConfig(),
+                    searchViewConfig: SearchViewConfig(
+                      backgroundColor: AppConstants.primarycolor,
+                      buttonIconColor: AppConstants.black,
+                      inputTextStyle: TextStyle(
+                        color: AppConstants.black
+                      ),
+                      hintTextStyle: TextStyle(
+                        color: AppConstants.grey
+                      )
+                    ),
                   ),
                 ),
               )

@@ -15,6 +15,7 @@ import 'package:audioplayers/audioplayers.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'constants.dart';
 import 'cube_to_die_widget.dart';
 import 'custom_search_delegate.dart';
 import 'dice_config.dart';
@@ -35,9 +36,9 @@ class DiceGameBoard extends StatefulWidget {
 
 class _DiceGameBoardState extends State<DiceGameBoard> {
   List<DiceConfig> dices = [];
-  Color currentCubeColor = Colors.white;
-  Color currentOutlineColor = Colors.black;
-  Color currentDotColor = Colors.black;
+  Color currentCubeColor = AppConstants.white;
+  Color currentOutlineColor = AppConstants.black;
+  Color currentDotColor = AppConstants.black;
   double currentSize = 100;
   late AudioPlayer _audioPlayer;
   String winningCondition = 'All dice must roll 6';
@@ -78,7 +79,7 @@ class _DiceGameBoardState extends State<DiceGameBoard> {
                 Expanded(
                   child: GestureDetector(
                     child: Container(
-                      color: Colors.lightBlue[50],
+                      color: AppConstants.primarycolor,
                       child: dices.isEmpty
                           ? _buildEmptyState()
                           : Stack(
@@ -92,7 +93,7 @@ class _DiceGameBoardState extends State<DiceGameBoard> {
                     ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.indigoAccent,
+        backgroundColor: AppConstants.secondarycolor,
         onPressed: _playGame,
         child: const Icon(Icons.casino),
       ),
@@ -115,7 +116,7 @@ class _DiceGameBoardState extends State<DiceGameBoard> {
           Text(
             'Life Dice',
             style: GoogleFonts.delaGothicOne(
-              color: Colors.black,
+              color: AppConstants.black,
               fontSize: 30,
               fontWeight: FontWeight.w700,
               letterSpacing: 3,
@@ -252,8 +253,8 @@ class _DiceGameBoardState extends State<DiceGameBoard> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.indigoAccent,
+              backgroundColor: AppConstants.white,
+              foregroundColor: AppConstants.secondarycolor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               )
@@ -286,7 +287,7 @@ class _DiceGameBoardState extends State<DiceGameBoard> {
             decoration: BoxDecoration(
               color: currentColor,
               shape: BoxShape.circle,
-              border: Border.all(color: currentColor == Colors.white ? Colors.black : Colors.white, width: 2),
+              border: Border.all(color: currentColor == AppConstants.white ? AppConstants.black : AppConstants.white, width: 2),
             ),
           ),
         ),
@@ -315,8 +316,8 @@ class _DiceGameBoardState extends State<DiceGameBoard> {
         actions: [
           TextButton(
             style: TextButton.styleFrom(
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+              backgroundColor: AppConstants.white,
+              foregroundColor: AppConstants.black,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               )
@@ -403,7 +404,17 @@ class _DiceGameBoardState extends State<DiceGameBoard> {
 
   void _playGame() {
     if (dices.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Add some dice to play!')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Hey! Start adding some dices to play!',
+            style: TextStyle(
+              color: AppConstants.red,
+              fontWeight: FontWeight.bold
+            ),
+          )
+        )
+      );
       return;
     }
 
@@ -432,7 +443,7 @@ class _DiceGameBoardState extends State<DiceGameBoard> {
         title: hasWon ? 'You Win!' : 'You Lose',
         text: hasWon ? 'Congratulations!' : 'Better luck next time!',
         confirmBtnText: 'Retry',
-        confirmBtnColor: Colors.indigoAccent,
+        confirmBtnColor: AppConstants.secondarycolor,
       );
     });
   }

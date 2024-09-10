@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:vector_math/vector_math_64.dart' as vector;
 
+import 'constants.dart';
 import 'dice_game_board.dart';
 
 class CubeHome extends StatelessWidget {
@@ -45,7 +46,7 @@ class _CubeHomeWidgetState extends State<CubeHomeWidget>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 4000),
+      duration: const Duration(milliseconds: 5000),
     )..addListener(() {
         setState(() {
           _animationProgress = _controller.value;
@@ -97,16 +98,16 @@ class CubeHomePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.blue.shade100
+      ..color = AppConstants.blueShade100
       ..style = PaintingStyle.fill;
 
     final outlinePaint = Paint()
-      ..color = Colors.black
+      ..color = AppConstants.black
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 
     final dotPaint = Paint()
-      ..color = Colors.black
+      ..color = AppConstants.black
       ..style = PaintingStyle.fill;
 
     // final center = Offset(size.width / 2, size.height / 2);
