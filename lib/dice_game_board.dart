@@ -409,10 +409,11 @@ class _DiceGameBoardState extends State<DiceGameBoard> {
     if (dices.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          backgroundColor: AppConstants.red,
           content: Text(
             'Hey! Start adding some dices to play!',
             style: TextStyle(
-              color: AppConstants.red,
+              color: AppConstants.white,
               fontWeight: FontWeight.bold
             ),
           )
