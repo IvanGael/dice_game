@@ -51,6 +51,7 @@ class _DiceFaceCustomizationScreenState extends State<DiceFaceCustomizationScree
           icon: const Icon(Icons.arrow_back_ios)
         ),
         actions: [
+          if(_showCustomizationInput == true)
           IconButton(
             onPressed: () {
               _showCustomizationConfirmation();

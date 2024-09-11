@@ -46,7 +46,7 @@ class _CubeHomeWidgetState extends State<CubeHomeWidget>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 5000),
+      duration: const Duration(milliseconds: 2500),
     )..addListener(() {
         setState(() {
           _animationProgress = _controller.value;
