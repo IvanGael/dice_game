@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:vector_math/vector_math_64.dart' as vector;
 
+
 import 'constants.dart';
 import 'dice_game_board.dart';
 
@@ -28,6 +29,99 @@ class CubeHome extends StatelessWidget {
     );
   }
 }
+
+// class CubeHomeWidget extends StatefulWidget {
+//   const CubeHomeWidget({super.key});
+
+//   @override
+//   _CubeHomeWidgetState createState() => _CubeHomeWidgetState();
+// }
+
+// class _CubeHomeWidgetState extends State<CubeHomeWidget>
+//     with SingleTickerProviderStateMixin {
+//   late AnimationController _controller;
+//   late Animation<double> _opacityAnimation;
+//   late Animation<Offset> _positionAnimation;
+//   double _animationProgress = 0.0;
+
+//   @override
+//   void initState() {
+//     super.initState();
+
+//     // Initialize the AnimationController
+//     _controller = AnimationController(
+//       vsync: this,
+//       duration: const Duration(milliseconds: 2500),
+//     )..addListener(() {
+//         setState(() {
+//           _animationProgress = _controller.value; 
+//         });
+//       });
+
+//     // Define the position animation from top to center
+//     _positionAnimation = Tween<Offset>(
+//       begin: const Offset(0, -1),  // Off-screen at the top
+//       end: Offset.zero,  // Center
+//     ).animate(CurvedAnimation(
+//       parent: _controller,
+//       curve: Curves.easeInOut,
+//     ));
+
+//     // Define the opacity animation for the fade-in effect
+//     _opacityAnimation = Tween<double>(
+//       begin: 0.0,
+//       end: 1.0,
+//     ).animate(CurvedAnimation(
+//       parent: _controller,
+//       curve: Curves.easeIn,
+//     ));
+
+//     _controller.forward();
+//   }
+
+//   @override
+//   void dispose() {
+//     _controller.dispose();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Stack(
+//       children: [
+//         CustomPaint(
+//           painter: CubeHomePainter(_animationProgress),
+//           size: const Size(300, 300), 
+//         ),
+        
+//         // Animated Positioned Button
+//         AnimatedBuilder(
+//           animation: _controller,
+//           builder: (context, child) {
+//             return Positioned(
+//               bottom: _positionAnimation.value.dy * MediaQuery.of(context).size.height,
+//               left: MediaQuery.of(context).size.width / 2 - 95, // Center the button horizontally
+//               child: Opacity(
+//                 opacity: _opacityAnimation.value,
+//                 child: ElevatedButton(
+//                   onPressed: () {
+//                     Navigator.push(
+//                       context,
+//                       MaterialPageRoute(
+//                         builder: (context) => const DiceGameBoard(),
+//                       ),
+//                     );
+//                   },
+//                   child: const Text('Play Now')
+//                 ),
+//               ),
+//             );
+//           },
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 class CubeHomeWidget extends StatefulWidget {
   const CubeHomeWidget({super.key});
