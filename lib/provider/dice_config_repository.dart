@@ -1,4 +1,4 @@
-import '../dice_config.dart';
+import '../models/dice_config.dart';
 
 class DiceConfigRepository {
   final Map<String, DiceConfig> _diceConfigs = {};

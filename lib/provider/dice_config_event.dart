@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../dice_config.dart';
+import '../models/dice_config.dart';
 
 abstract class DiceConfigEvent extends Equatable {
   const DiceConfigEvent();

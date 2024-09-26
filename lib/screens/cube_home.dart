@@ -4,12 +4,26 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:vector_math/vector_math_64.dart' as vector;
 
-
-import 'constants.dart';
+import '../constants.dart';
+import '../widgets/responsive_layout.dart';
 import 'dice_game_board.dart';
 
 class CubeHome extends StatelessWidget {
   const CubeHome({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const ResponsiveLayout(
+      mobileBody: CubeHomeMobile(),
+      tabletBody: CubeHomeTablet(),
+      desktopBody: CubeHomeDesktop(),
+    );
+  }
+}
+
+// Mobile Layout
+class CubeHomeMobile extends StatelessWidget {
+  const CubeHomeMobile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +37,53 @@ class CubeHome extends StatelessWidget {
             height: double.infinity,
             width: double.infinity,
           ),
-          const Center(child: CubeHomeWidget())
+          const Center(child: CubeHomeWidget(size: 250)) 
+        ],
+      ),
+    );
+  }
+}
+
+// Tablet Layout
+class CubeHomeTablet extends StatelessWidget {
+  const CubeHomeTablet({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            'assets/cbh2.jpg',
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
+          ),
+          const Center(child: CubeHomeWidget(size: 300)) 
+        ],
+      ),
+    );
+  }
+}
+
+// Desktop Layout
+class CubeHomeDesktop extends StatelessWidget {
+  const CubeHomeDesktop({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            'assets/cbh2.jpg',
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
+          ),
+          const Center(child: CubeHomeWidget(size: 350)) 
         ],
       ),
     );
@@ -31,7 +91,9 @@ class CubeHome extends StatelessWidget {
 }
 
 class CubeHomeWidget extends StatefulWidget {
-  const CubeHomeWidget({super.key});
+  final double size; 
+
+  const CubeHomeWidget({super.key, required this.size});
 
   @override
   _CubeHomeWidgetState createState() => _CubeHomeWidgetState();
@@ -43,7 +105,6 @@ class _CubeHomeWidgetState extends State<CubeHomeWidget>
   late Animation<double> _opacityAnimation;
   late Animation<Offset> _positionAnimation;
   double _animationProgress = 0.0;
-
 
   @override
   void initState() {
@@ -92,7 +153,7 @@ class _CubeHomeWidgetState extends State<CubeHomeWidget>
       children: [
         CustomPaint(
           painter: CubeHomePainter(_animationProgress),
-          size: const Size(300, 300), 
+          size: Size(widget.size, widget.size),
         ),
         
         // Animated Positioned Button
@@ -101,7 +162,7 @@ class _CubeHomeWidgetState extends State<CubeHomeWidget>
           builder: (context, child) {
             return Positioned(
               bottom: _positionAnimation.value.dy * MediaQuery.of(context).size.height,
-              left: MediaQuery.of(context).size.width / 2 - 110, // Center the button horizontally
+              left: widget.size / 2 - 70, // Center the button horizontally
               child: Opacity(
                 opacity: _opacityAnimation.value,
                 child: ElevatedButton(
@@ -113,7 +174,7 @@ class _CubeHomeWidgetState extends State<CubeHomeWidget>
                       ),
                     );
                   },
-                  child: const Text("Let's Roll!", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)
+                  child: const Text("Let's Roll !", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)
                 ),
               ),
             );
@@ -123,6 +184,7 @@ class _CubeHomeWidgetState extends State<CubeHomeWidget>
     );
   }
 }
+
 
 // class CubeHomeWidget extends StatefulWidget {
 //   const CubeHomeWidget({super.key});

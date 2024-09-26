@@ -15,16 +15,16 @@ import 'package:audioplayers/audioplayers.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'constants.dart';
-import 'cube_to_die_widget.dart';
-import 'custom_search_delegate.dart';
-import 'dice_config.dart';
+import '../constants.dart';
+import '../widgets/cube_to_die_widget.dart';
+import '../widgets/custom_search_delegate.dart';
+import '../models/dice_config.dart';
 import 'dice_faces_customization.dart';
-import 'provider/dice_config_bloc.dart';
-import 'provider/dice_config_event.dart';
-import 'provider/dice_config_repository.dart';
-import 'provider/dice_config_state.dart';
-import 'utils.dart';
+import '../provider/dice_config_bloc.dart';
+import '../provider/dice_config_event.dart';
+import '../provider/dice_config_repository.dart';
+import '../provider/dice_config_state.dart';
+import '../utils.dart';
 
 
 class DiceGameBoard extends StatefulWidget {
