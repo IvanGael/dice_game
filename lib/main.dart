@@ -2,6 +2,7 @@
 
 import 'package:dice_game/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/services.dart';
@@ -12,12 +13,15 @@ import 'provider/dice_config_bloc.dart';
 import 'provider/dice_config_repository.dart';
 
 void main() {
-  // runApp(
-  //     DevicePreview(
-  //       builder: (context) => const MyApp()
-  //     )
-  //   );
-  runApp(const MyApp());
+  if(kDebugMode){
+    runApp(const MyApp());
+  } else {
+    runApp(
+      DevicePreview(
+        builder: (context) => const MyApp()
+      )
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -32,33 +36,34 @@ class MyApp extends StatelessWidget {
         statusBarIconBrightness: Brightness.light, // Icon color (white or black)
       )
     );
-    
-    // return MaterialApp(
-    //   title: 'Dice Game',
-    //   useInheritedMediaQuery: true,
-    //   locale: DevicePreview.locale(context),
-    //   builder: DevicePreview.appBuilder,
-    //   theme: ThemeData.dark(
-    //     useMaterial3: true,
-    //   ),
-    //   debugShowCheckedModeBanner: false,
-    //   home: BlocProvider(
-    //     create: (context) => DiceConfigBloc(diceConfigRepository: DiceConfigRepository()),
-    //     child: const CubeHome(),
-    //   )
-    // );
 
-    return MaterialApp(
+    if(kDebugMode) {
+      return MaterialApp(
       title: 'Dice Game',
       theme: ThemeData.dark(
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      // home: const CubeHome(),
       home: BlocProvider(
         create: (context) => DiceConfigBloc(diceConfigRepository: DiceConfigRepository()),
         child: const CubeHome(),
       ),
+    );
+    }
+    
+    return MaterialApp(
+      title: 'Dice Game',
+      useInheritedMediaQuery: true,
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
+      theme: ThemeData.dark(
+        useMaterial3: true,
+      ),
+      debugShowCheckedModeBanner: false,
+      home: BlocProvider(
+        create: (context) => DiceConfigBloc(diceConfigRepository: DiceConfigRepository()),
+        child: const CubeHome(),
+      )
     );
   }
 }
